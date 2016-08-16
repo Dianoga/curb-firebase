@@ -6,6 +6,7 @@ export class CurbProfile {
 		this.billing = data._embedded.billing;
 		delete this.billing._links;
 
+		this.id = data.id;
 		this.display_name = data.display_name;
 
 		this.realtime = {
@@ -65,7 +66,7 @@ export class CurbProfile {
 		return _.map(data, (val, key) => {
 			const id = `${this.realtime.prefix}:${key}`;
 			const register = this.registers[id];
-			
+
 			return {
 				id: id,
 				value: val * register.multiplier * (register.flip_domain ? -1 : 1)
