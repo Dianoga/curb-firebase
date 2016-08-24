@@ -6,11 +6,7 @@
                 "exceptions": ["_"]
             }
         ],
-        "no-magic-numbers": [
-            "error", {
-                "ignore": [-1, 0, 1]
-            }
-        ],
+        "no-magic-numbers": 0,
         "no-console": 0
     }
 }
