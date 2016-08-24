@@ -10,7 +10,7 @@ export class CurbDatasource {
 			clientSecret: config.clientSecret,
 			logger: this._log
 		});
-		this.powerRef = database.ref('/power');
+		this.ref = database.ref('/power');
 	}
 
 	init() {
@@ -41,7 +41,7 @@ export class CurbDatasource {
 			};
 		});
 
-		this.powerRef.set(power);
+		this.ref.set(power);
 	}
 
 	_profileWatch(profile) {
@@ -51,7 +51,7 @@ export class CurbDatasource {
 			_.each(data.measurements, val => {
 				updates[`${val.id}/watts`] = val.value;
 			});
-			this.powerRef.update(updates);
+			this.ref.update(updates);
 		});
 	}
 
