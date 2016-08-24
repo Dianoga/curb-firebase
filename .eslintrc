@@ -1,0 +1,16 @@
+{
+    "extends": "smartthings",
+    "rules": {
+        "id-length": [
+            "error", {
+                "exceptions": ["_"]
+            }
+        ],
+        "no-magic-numbers": [
+            "error", {
+                "ignore": [-1, 0, 1]
+            }
+        ],
+        "no-console": 0
+    }
+}
