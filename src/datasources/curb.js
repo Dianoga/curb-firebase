@@ -51,6 +51,7 @@ export class CurbDatasource {
 			_.each(data.measurements, val => {
 				updates[`${val.id}/watts`] = val.value;
 			});
+			
 			this.ref.update(updates);
 		});
 	}

@@ -71,7 +71,8 @@ export class RainMachineDatasource {
 
 			data[val.uid] = {
 				name: val.name,
-				status: val.state || 0
+				status: val.state || 0,
+				remaining: val.remaining || 0
 			};
 		});
 
