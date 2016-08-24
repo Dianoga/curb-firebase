@@ -1,6 +1,9 @@
 import path from 'path';
 import _ from 'lodash';
-import { CurbDatasource } from './datasources';
+import {
+	CurbDatasource,
+	RainMachineDatasource
+} from './datasources';
 
 const firebase = require('firebase');
 
@@ -24,7 +27,10 @@ class QuickDashHelper {
 		_.each(config, (val, key) => {
 			switch (key) {
 				case 'curb':
-					this.sources.push(new CurbDatasource(val, this.database));
+					// this.sources.push(new CurbDatasource(val, this.database));
+					break;
+				case 'rainmachine':
+					this.sources.push(new RainMachineDatasource(val, this.database));
 					break;
 				default:
 					break;
