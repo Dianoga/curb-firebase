@@ -1,5 +1,6 @@
 import path from 'path';
 import _ from 'lodash';
+import chalk from 'chalk';
 import {
 	CurbDatasource,
 	RainMachineDatasource
@@ -27,10 +28,18 @@ class QuickDashHelper {
 		_.each(config, (val, key) => {
 			switch (key) {
 				case 'curb':
-					this.sources.push(new CurbDatasource(val, this.database));
+					if (val.disable) {
+						this._log('Curb Disabled');
+					} else {
+						this.sources.push(new CurbDatasource(val, this.database));
+					}
 					break;
 				case 'rainmachine':
-					this.sources.push(new RainMachineDatasource(val, this.database));
+					if (val.disable) {
+						this._log('Rainmachine Disabled');
+					} else {
+						this.sources.push(new RainMachineDatasource(val, this.database));
+					}
 					break;
 				default:
 					break;
@@ -40,6 +49,10 @@ class QuickDashHelper {
 
 	init() {
 		_.each(this.sources, val => val.init());
+	}
+
+	_log(message) {
+		console.log(chalk.red('Master: ') + message);
 	}
 }
 
