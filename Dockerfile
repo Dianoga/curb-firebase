@@ -1,3 +1,3 @@
-FROM node:6-onbuild
+FROM node:8-onbuild
 
 VOLUME /usr/src/app/config

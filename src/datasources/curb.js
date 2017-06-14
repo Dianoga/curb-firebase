@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import chalk from 'chalk';
 import { Curb } from 'node-curb';
 
@@ -15,11 +14,13 @@ export class CurbDatasource {
 
 	init() {
 		this.curb.init(this._config.username, this._config.password)
-			.then(profiles => {
-				_.each(profiles, profile => {
-					this._profileToFirebase(profile);
-					this._profileWatch(profile);
+			.then(locations => {
+				Object.values(locations).forEach(location => {
+					this._locationToFirebase(location);
+					location.addListener(this._locationWatch.bind(this));
 				});
+
+				this.curb.watch();
 			})
 			.catch(err => {
 				console.error('Horrible failure during curb.init');
@@ -28,32 +29,20 @@ export class CurbDatasource {
 			});
 	}
 
-	_profileToFirebase(profile) {
-		this._log(`Initializing ${profile.display_name} in firebase`);
+	_locationToFirebase(location) {
+		this._log(`Initializing ${location.name} in firebase`);
 
 		const power = {};
 
-		_.each(profile.registers, val => {
-			power[val.id] = {
-				id: val.id,
-				name: val.label,
-				groups: val.groups
-			};
+		Object.values(location.circuits).forEach(val => {
+			power[val.id] = val;
 		});
 
 		this.ref.set(power);
 	}
 
-	_profileWatch(profile) {
-		this._log(`Starting stream for ${profile.display_name}`);
-		profile.watch(data => {
-			const updates = {};
-			_.each(data.measurements, val => {
-				updates[`${val.id}/watts`] = val.value;
-			});
-			
-			this.ref.update(updates);
-		});
+	_locationWatch(location) {
+		this.ref.set(location.circuits);
 	}
 
 	_log(message) {

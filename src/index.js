@@ -6,7 +6,7 @@ import {
 	RainMachineDatasource
 } from './datasources';
 
-const firebase = require('firebase');
+const firebase = require('firebase-admin');
 
 const paths = {
 	configDir: path.resolve(__dirname, '../', 'config/')
@@ -18,7 +18,7 @@ class QuickDashHelper {
 	constructor() {
 		firebase.initializeApp({
 			databaseURL: 'https://project-2731511947915132034.firebaseio.com/',
-			serviceAccount: `${paths.configDir}/firebase-account.json`
+			credential: firebase.credential.cert(`${paths.configDir}/firebase-account.json`)
 		});
 
 		this.database = firebase.database();
